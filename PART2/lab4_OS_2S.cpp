@@ -1,6 +1,5 @@
-﻿#include <iostream>
+#include <iostream>
 #include <conio.h>
-#include <string>
 #include <windows.h>
 
 void PrintMenu() {
@@ -14,7 +13,7 @@ bool ConnectToPipe(HANDLE& hPipe, HANDLE& hEvent) {
     hPipe = CreateNamedPipe("\\\\.\\pipe\\dpipe", PIPE_ACCESS_OUTBOUND, PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE | PIPE_WAIT,
         PIPE_UNLIMITED_INSTANCES, 512, 512, 0, NULL);
     hEvent = CreateEvent(NULL, false, false, NULL);
-    OVERLAPPED lpOverlapped;
+    OVERLAPPED lpOverlapped = OVERLAPPED();
     bool isConnected = false;
 
     if (hPipe != INVALID_HANDLE_VALUE && hEvent != INVALID_HANDLE_VALUE) {
@@ -27,14 +26,14 @@ bool ConnectToPipe(HANDLE& hPipe, HANDLE& hEvent) {
 }
 
 bool SendNewMessage(HANDLE hPipe, HANDLE& hEvent) {
-    std::string message;
+    char message[512];
     OVERLAPPED lpOverlapped = OVERLAPPED();
 
     std::cout << std::endl << "Введите сообщение: ";
-    std::cin >> message;
+    std::cin.getline(message, 512);
     
     lpOverlapped.hEvent = hEvent;
-    return WriteFile(hPipe, message.c_str(), 512, NULL, &lpOverlapped);
+    return WriteFile(hPipe, message, 512, NULL, &lpOverlapped);
 }
 
 void CloseHandles(HANDLE& hPipe, HANDLE& hEvent) {
