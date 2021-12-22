@@ -28,7 +28,7 @@ bool ConnectToPipe(HANDLE& hPipe, HANDLE& hEvent) {
 bool GetNewMessage(HANDLE& hPipe, HANDLE& hEvent, char message[]) {
     OVERLAPPED lpOverlapped = OVERLAPPED();
     lpOverlapped.hEvent = hEvent;
-    bool isMesGet = ReadFileEx(hPipe, (LPVOID)message, 512, &lpOverlapped, Callback);
+    bool isMesGet = ReadFileEx(hPipe, message, 512, &lpOverlapped, Callback);
     SleepEx(INFINITE, true);
     return isMesGet;
 }
