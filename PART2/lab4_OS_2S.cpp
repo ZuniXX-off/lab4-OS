@@ -31,7 +31,7 @@ bool SendNewMessage(HANDLE hPipe, HANDLE& hEvent) {
 
     std::cout << std::endl << "Введите сообщение: ";
     std::cin.getline(message, 512);
-    
+
     lpOverlapped.hEvent = hEvent;
     return WriteFile(hPipe, message, 512, NULL, &lpOverlapped);
 }
@@ -51,7 +51,7 @@ int main() {
     HANDLE pipeHandle = nullptr;
     HANDLE eventHandle = nullptr;
     bool isConnected = false;
-    
+
     do {
         system("cls");
         PrintMenu();
@@ -87,9 +87,9 @@ int main() {
         case '3':
             if (isConnected) {
                 if (DisconnectNamedPipe(pipeHandle)) {
-                    std::cout << std::endl << "Отключение прошо успешно" << std::endl;
+                    std::cout << std::endl << "Отключение прошло успешно" << std::endl;
                     isConnected = false;
-                }                    
+                }
                 else
                     std::cout << std::endl << "Отключение не было выполнено" << std::endl;
             }
